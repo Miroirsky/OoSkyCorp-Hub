@@ -9,7 +9,7 @@ const cardsData = [
     title: "Magical Fight",
     description: "One of my web games",
     url: "https://miroirsky.github.io/Magical-Fight",
-    image: "images/links-images/Magical-Fight.png"
+    image: "images/cards-images/Magical-Fight.png"
   },
   {
     category: "Roblox",
@@ -17,7 +17,7 @@ const cardsData = [
     title: "OoSkyCorp",
     description: "Join my Roblox group",
     url: "https://www.roblox.com/communities/33716114/Oo-Sky-Corp#!/about",
-    image: "images/links-images/OoSkyCorp.webp"
+    image: "images/cards-images/OoSkyCorp.webp"
   },
   {
     category: "Roblox",
@@ -25,7 +25,7 @@ const cardsData = [
     title: "My Roblox Account",
     description: "Follow me on Roblox",
     url: "https://www.roblox.com/users/2004141820/profile",
-    image: "images/links-images/Roblox-Account.webp"
+    image: "images/cards-images/Roblox-Account.webp"
   },
   {
     category: "Discord",
@@ -33,7 +33,7 @@ const cardsData = [
     title: "OoSkyCorp Server",
     description: "Join the group's Discord",
     url: "https://discord.gg/H5NMQvCy",
-    image: "images/links-images/OoSkyCorp.webp"
+    image: "images/cards-images/OoSkyCorp.webp"
   },
   {
     category: "Discord",
@@ -41,7 +41,7 @@ const cardsData = [
     title: "My Discord Server",
     description: "Join my personal Discord",
     url: "https://discord.gg/jQvbQ2KS",
-    image: "images/links-images/Miroirsky.jpg"
+    image: "images/cards-images/Miroirsky.jpg"
   },
   {
     category: "Scratch",
@@ -49,7 +49,7 @@ const cardsData = [
     title: "My Scratch Account",
     description: "Check out my Scratch profile",
     url: "https://scratch.mit.edu/users/Morgan16400/",
-    image: "images/links-images/Scratch-Group.png"
+    image: "images/cards-images/Scratch-Group.png"
   },
   {
     category: "Scratch",
@@ -57,7 +57,7 @@ const cardsData = [
     title: "My Scratch Group",
     description: "Discover my Scratch studio",
     url: "https://scratch.mit.edu/studios/32520921/",
-    image: "images/links-images/Scratch-Account.png"
+    image: "images/cards-images/Scratch-Account.png"
   },
   {
     category: "Twitch",
@@ -65,7 +65,7 @@ const cardsData = [
     title: "My Twitch Channel",
     description: "Follow me on Twitch",
     url: "https://www.twitch.tv/miroirsky",
-    image: "images/links-images/Miroirsky.jpg"
+    image: "images/cards-images/Miroirsky.jpg"
   }
 ];
 
@@ -165,65 +165,46 @@ function filterCards(searchText) {
   const cards = document.querySelectorAll('.link-card');
   const normalizedSearch = searchText.toLowerCase().trim();
   const isInMixedView = !document.querySelector('.category-section');
-  
-  if (isInMixedView && normalizedSearch !== '') {
-    const container = document.querySelector('.card-container');
-    const cardsArray = Array.from(cards);
-    
-    cardsArray.sort((a, b) => {
-      const aTitle = a.querySelector('h3').textContent.toLowerCase();
-      const aDesc = a.querySelector('p').textContent.toLowerCase();
-      const bTitle = b.querySelector('h3').textContent.toLowerCase();
-      const bDesc = b.querySelector('p').textContent.toLowerCase();
-      
-      const aMatches = aTitle.includes(normalizedSearch) || aDesc.includes(normalizedSearch);
-      const bMatches = bTitle.includes(normalizedSearch) || bDesc.includes(normalizedSearch);
-      
-      if (aMatches && !bMatches) return -1;
-      if (!aMatches && bMatches) return 1;
-      return aTitle.localeCompare(bTitle, 'en');
-    });
-    
-    cardsArray.forEach(card => {
-      const title = card.querySelector('h3').textContent.toLowerCase();
-      const description = card.querySelector('p').textContent.toLowerCase();
-      const matches = title.includes(normalizedSearch) || description.includes(normalizedSearch);
-      
-      card.classList.toggle('filtered', !matches);
-      container.appendChild(card);
-    });
-  } else {
-    cards.forEach(card => {
-      const title = card.querySelector('h3').textContent.toLowerCase();
-      const description = card.querySelector('p').textContent.toLowerCase();
-      const matches = title.includes(normalizedSearch) || description.includes(normalizedSearch);
-      
-      if (normalizedSearch === '') {
-        card.classList.remove('filtered', 'hidden');
+
+  cards.forEach(card => {
+    const title = card.querySelector('h3').textContent.toLowerCase();
+    const description = card.querySelector('p').textContent.toLowerCase();
+    // Recherche la catégorie dans le JS (on la retrouve via l'URL de la carte)
+    const url = card.querySelector('.card-url').getAttribute('title');
+    const cardObj = cardsData.find(c => c.url === url);
+    const category = cardObj ? cardObj.category.toLowerCase() : '';
+
+    const matches =
+      title.includes(normalizedSearch) ||
+      description.includes(normalizedSearch) ||
+      category.includes(normalizedSearch);
+
+    if (normalizedSearch === '') {
+      card.classList.remove('filtered', 'hidden');
+    } else {
+      if (matches) {
+        card.classList.remove('hidden', 'filtered');
       } else {
-        if (matches) {
-          card.classList.remove('hidden', 'filtered');
+        if (isInMixedView) {
+          card.classList.add('filtered');
+          card.classList.remove('hidden');
         } else {
-          if (isInMixedView) {
-            card.classList.add('filtered');
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-            card.classList.remove('filtered');
-          }
+          card.classList.add('hidden');
+          card.classList.remove('filtered');
         }
       }
-    });
-    
-    // Gérer l'affichage des titres de catégories en vue catégories
-    if (!isInMixedView) {
-      document.querySelectorAll('.category-section').forEach(section => {
-        const hasVisibleCards = section.querySelector('.card-container').querySelectorAll('.link-card:not(.hidden)').length > 0;
-        section.style.display = hasVisibleCards ? '' : 'none';
-      });
     }
+  });
+
+  // Gérer l'affichage des titres de catégories en vue catégories
+  if (!isInMixedView) {
+    document.querySelectorAll('.category-section').forEach(section => {
+      const hasVisibleCards = section.querySelector('.card-container').querySelectorAll('.link-card:not(.hidden)').length > 0;
+      section.style.display = hasVisibleCards ? '' : 'none';
+    });
   }
 }
+
 
 function updateTitleColor(type) {
   // Couleur principale selon le type, fallback vert
