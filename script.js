@@ -85,7 +85,7 @@ function createCard(card) {
     `;
   }
   
-  cardContent += `<span class="card-url" title="${card.url}">${card.url}</span>`;
+  cardContent += `<span class="card-url" title="${card.url}" onclick="copyURLToClipboard(event, '${card.url}')">${card.url}</span>`;
   div.innerHTML = cardContent;
   
   if (selectedUrl === card.url) div.classList.add('selected');
@@ -263,4 +263,18 @@ function filterCards(searchText) {
       title.style.display = visibleCards.length > 0 ? '' : 'none';
     });
   }
+}
+
+
+function copyURLToClipboard(event, url) {
+  event.stopPropagation(); // éviter la sélection de la carte
+  navigator.clipboard.writeText(url).then(() => {
+    const originalText = event.target.textContent;
+    event.target.textContent = "✅ Copied!";
+    setTimeout(() => {
+      event.target.textContent = originalText;
+    }, 1500);
+  }).catch(err => {
+    alert("Failed to copy URL: " + err);
+  });
 }
