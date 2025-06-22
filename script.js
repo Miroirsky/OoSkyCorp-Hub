@@ -1,3 +1,12 @@
+let currentViewMode = 'categories';
+const categoryIcons = {
+  "Web Games": "images/category-icons/website.png",
+  "Roblox": "images/category-icons/roblox.png",
+  "Discord": "images/category-icons/discord.webp",
+  "Scratch": "images/category-icons/scratch.png",
+  "Twitch": "images/category-icons/twitch.webp"
+};
+
 let selectedUrl = null;
 let selectedType = null;
 
@@ -96,6 +105,20 @@ function createCard(card) {
   
   cardContent += `<span class="card-url" title="${card.url}" onclick="copyURLToClipboard(event, '${card.url}')">${card.url}</span>`;
   div.innerHTML = cardContent;
+
+  // Ajout de l'icône catégorie en haut à gauche si Mixed View
+  if (currentViewMode === 'mixed') {
+    const iconPath = categoryIcons[card.category];
+    if (iconPath) {
+      const catIcon = document.createElement('img');
+      catIcon.src = iconPath;
+      catIcon.alt = card.category + " icon";
+      catIcon.className = "card-category-icon";
+      div.appendChild(catIcon);
+    }
+  }
+
+
   
   if (selectedUrl === card.url) div.classList.add('selected');
   return div;
@@ -116,9 +139,18 @@ function renderView(mode) {
       categorySection.className = 'category-section';
       
       const h2 = document.createElement('h2');
-      h2.className = `category-title ${cards[0].type}-title`;
-      h2.textContent = cat;
-      categorySection.appendChild(h2);
+h2.className = `category-title ${cards[0].type}-title`;
+const iconPath = categoryIcons[cat];
+if (iconPath) {
+  const img = document.createElement('img');
+  img.src = iconPath;
+  img.alt = cat + " icon";
+  img.className = "category-icon";
+  h2.appendChild(img);
+}
+const textNode = document.createTextNode(cat);
+h2.appendChild(textNode);
+categorySection.appendChild(h2);
       
       const container = document.createElement('div');
       container.className = "card-container";
@@ -138,6 +170,7 @@ function renderView(mode) {
 }
 
 function setView(mode) {
+  currentViewMode = mode;
   const btn = document.getElementById("displayModeBtn");
   renderView(mode);
   btn.textContent = mode === 'categories' ? "Grouped by categories" : "Mixed view";
