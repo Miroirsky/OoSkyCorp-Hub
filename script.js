@@ -49,7 +49,7 @@ const cardsData = [
     title: "My Scratch Account",
     description: "Check out my Scratch profile",
     url: "https://scratch.mit.edu/users/Morgan16400/",
-    image: "images/links-images/Scratch-Account.png"
+    image: "images/links-images/Scratch-Group.png"
   },
   {
     category: "Scratch",
@@ -57,7 +57,15 @@ const cardsData = [
     title: "My Scratch Group",
     description: "Discover my Scratch studio",
     url: "https://scratch.mit.edu/studios/32520921/",
-    image: "images/links-images/Scratch-Group.png"
+    image: "images/links-images/Scratch-Account.png"
+  },
+  {
+    category: "Twitch",
+    type: "twitch",
+    title: "My Twitch Channel",
+    description: "Follow me on Twitch",
+    url: "https://www.twitch.tv/miroirsky",
+    image: "images/links-images/Miroirsky.jpg"
   }
 ];
 
@@ -66,7 +74,8 @@ const typeGlowColors = {
   webgame: "#00ffae",
   roblox: "#007bff",
   discord: "#5865F2",
-  scratch: "#FFA600"
+  scratch: "#FFA600",
+  twitch: "#9146FF"
 };
 
 function createCard(card) {
@@ -92,39 +101,129 @@ function createCard(card) {
   return div;
 }
 
-// Génère la vue par catégories
-function renderCategories() {
-  const categoriesView = document.getElementById('categoriesView');
-  categoriesView.innerHTML = "";
-  // Liste des catégories dans l'ordre voulu
-  const categoryOrder = ["Web Games", "Roblox", "Discord", "Scratch"];
-  categoryOrder.forEach(cat => {
-    const cards = cardsData.filter(card => card.category === cat);
-    if (!cards.length) return;
-    // Ajout du titre avec la bonne classe de couleur
-    const h2 = document.createElement('h2');
-    h2.className = `category-title ${cards[0].type}-title`;
-    h2.textContent = cat;
-    categoriesView.appendChild(h2);
-    // Ajout des cartes
+function renderView(mode) {
+  const mainContainer = document.getElementById('mainContainer');
+  mainContainer.innerHTML = '';
+  
+  if (mode === 'categories') {
+    // Vue par catégories
+    const categoryOrder = ["Web Games", "Roblox", "Discord", "Scratch", "Twitch"];
+    categoryOrder.forEach(cat => {
+      const cards = cardsData.filter(card => card.category === cat);
+      if (!cards.length) return;
+      
+      const categorySection = document.createElement('div');
+      categorySection.className = 'category-section';
+      
+      const h2 = document.createElement('h2');
+      h2.className = `category-title ${cards[0].type}-title`;
+      h2.textContent = cat;
+      categorySection.appendChild(h2);
+      
+      const container = document.createElement('div');
+      container.className = "card-container";
+      cards.forEach(card => container.appendChild(createCard(card)));
+      categorySection.appendChild(container);
+      
+      mainContainer.appendChild(categorySection);
+    });
+  } else {
+    // Vue mixte
     const container = document.createElement('div');
     container.className = "card-container";
-    cards.forEach(card => container.appendChild(createCard(card)));
-    categoriesView.appendChild(container);
-  });
+    const sorted = [...cardsData].sort((a, b) => a.title.localeCompare(b.title, 'en'));
+    sorted.forEach(card => container.appendChild(createCard(card)));
+    mainContainer.appendChild(container);
+  }
 }
 
-// Génère la vue mixed triée alphabétiquement
-function renderMixed() {
-  const mixedView = document.getElementById('mixedView');
-  mixedView.innerHTML = "";
-  const sorted = [...cardsData].sort((a, b) => a.title.localeCompare(b.title, 'en'));
-  const container = document.createElement('div');
-  container.className = "card-container";
-  sorted.forEach(card => container.appendChild(createCard(card)));
-  mixedView.appendChild(container);
+function setView(mode) {
+  const btn = document.getElementById("displayModeBtn");
+  renderView(mode);
+  btn.textContent = mode === 'categories' ? "Grouped by categories" : "Mixed view";
+  document.getElementById("dropdownMenu").classList.remove("show");
+  
+  // Réappliquer la recherche actuelle si elle existe
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput && searchInput.value.trim() !== '') {
+    filterCards(searchInput.value);
+  }
+  
+  // Réappliquer la sélection si une carte était sélectionnée
+  if (selectedUrl) {
+    const cards = document.querySelectorAll('.link-card');
+    cards.forEach(card => {
+      const url = card.querySelector('.card-url').getAttribute('title');
+      if (url === selectedUrl) {
+        card.classList.add('selected');
+      }
+    });
+  }
 }
 
+function filterCards(searchText) {
+  const cards = document.querySelectorAll('.link-card');
+  const normalizedSearch = searchText.toLowerCase().trim();
+  const isInMixedView = !document.querySelector('.category-section');
+  
+  if (isInMixedView && normalizedSearch !== '') {
+    const container = document.querySelector('.card-container');
+    const cardsArray = Array.from(cards);
+    
+    cardsArray.sort((a, b) => {
+      const aTitle = a.querySelector('h3').textContent.toLowerCase();
+      const aDesc = a.querySelector('p').textContent.toLowerCase();
+      const bTitle = b.querySelector('h3').textContent.toLowerCase();
+      const bDesc = b.querySelector('p').textContent.toLowerCase();
+      
+      const aMatches = aTitle.includes(normalizedSearch) || aDesc.includes(normalizedSearch);
+      const bMatches = bTitle.includes(normalizedSearch) || bDesc.includes(normalizedSearch);
+      
+      if (aMatches && !bMatches) return -1;
+      if (!aMatches && bMatches) return 1;
+      return aTitle.localeCompare(bTitle, 'en');
+    });
+    
+    cardsArray.forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      const description = card.querySelector('p').textContent.toLowerCase();
+      const matches = title.includes(normalizedSearch) || description.includes(normalizedSearch);
+      
+      card.classList.toggle('filtered', !matches);
+      container.appendChild(card);
+    });
+  } else {
+    cards.forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      const description = card.querySelector('p').textContent.toLowerCase();
+      const matches = title.includes(normalizedSearch) || description.includes(normalizedSearch);
+      
+      if (normalizedSearch === '') {
+        card.classList.remove('filtered', 'hidden');
+      } else {
+        if (matches) {
+          card.classList.remove('hidden', 'filtered');
+        } else {
+          if (isInMixedView) {
+            card.classList.add('filtered');
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+            card.classList.remove('filtered');
+          }
+        }
+      }
+    });
+    
+    // Gérer l'affichage des titres de catégories en vue catégories
+    if (!isInMixedView) {
+      document.querySelectorAll('.category-section').forEach(section => {
+        const hasVisibleCards = section.querySelector('.card-container').querySelectorAll('.link-card:not(.hidden)').length > 0;
+        section.style.display = hasVisibleCards ? '' : 'none';
+      });
+    }
+  }
+}
 
 function updateTitleColor(type) {
   // Couleur principale selon le type, fallback vert
@@ -153,7 +252,7 @@ function updateSelectionHighlight() {
       }
     });
     const travelBtn = document.getElementById('travelBtn');
-    travelBtn.classList.remove('dynamic-webgame', 'dynamic-roblox', 'dynamic-discord', 'dynamic-scratch');
+    travelBtn.classList.remove('dynamic-webgame', 'dynamic-roblox', 'dynamic-discord', 'dynamic-scratch', 'dynamic-twitch');
     if (selectedType) travelBtn.classList.add('dynamic-' + selectedType);
     updateContainerGlow(selectedType);
   updateTitleColor(selectedType);
@@ -172,11 +271,12 @@ function selectCard(element, url) {
   selectedType = found ? found.type : null;
 
   const travelBtn = document.getElementById('travelBtn');
-  travelBtn.classList.remove('dynamic-webgame', 'dynamic-roblox', 'dynamic-discord', 'dynamic-scratch');
-  if (selectedType) travelBtn.classList.add('dynamic-' + selectedType);
+  travelBtn.classList.remove('dynamic-webgame', 'dynamic-roblox', 'dynamic-discord', 'dynamic-scratch', 'dynamic-twitch');
+  if (selectedType) {
+    travelBtn.classList.add('dynamic-' + selectedType);
+  }
 
   updateContainerGlow(selectedType);
-  updateTitleColor(selectedType);
   updateTitleColor(selectedType);
 }
 
@@ -192,79 +292,19 @@ function toggleDropdown() {
   document.getElementById("dropdownMenu").classList.toggle("show");
 }
 
-function setView(mode) {
-  const btn = document.getElementById("displayModeBtn");
-  if (mode === 'categories') {
-    renderCategories();
-    document.getElementById("categoriesView").style.display = '';
-    document.getElementById("mixedView").style.display = 'none';
-    btn.textContent = "Grouped by categories";
-  } else {
-    renderMixed();
-    document.getElementById("categoriesView").style.display = 'none';
-    document.getElementById("mixedView").style.display = '';
-    btn.textContent = "Mixed view";
-  }
-  document.getElementById("dropdownMenu").classList.remove("show");
-  setTimeout(updateSelectionHighlight, 5);
-}
-
 window.onclick = function(event) {
   if (!event.target.matches('.dropdown-toggle')) {
     document.getElementById("dropdownMenu").classList.remove("show");
   }
 };
 
-window.onload = function () {
-  document.getElementById("displayModeBtn").textContent = "Grouped by categories";
-  renderCategories();
-  renderMixed();
+window.onload = function() {
+  renderView('categories');
   const travelBtn = document.getElementById('travelBtn');
   travelBtn.classList.add('dynamic-webgame');
-  updateSelectionHighlight();
   updateContainerGlow('webgame');
   updateTitleColor('webgame');
 };
-
-function filterCards(searchText) {
-  const cards = document.querySelectorAll('.link-card');
-  const normalizedSearch = searchText.toLowerCase().trim();
-  
-  cards.forEach(card => {
-    const title = card.querySelector('h3').textContent.toLowerCase();
-    const description = card.querySelector('p').textContent.toLowerCase();
-    const matches = title.includes(normalizedSearch) || description.includes(normalizedSearch);
-    
-    if (normalizedSearch === '') {
-      card.classList.remove('filtered', 'hidden');
-    } else {
-      if (matches) {
-        card.classList.remove('hidden');
-        card.classList.remove('filtered');
-      } else {
-        // Si on est en vue mixte, on filtre avec opacity
-        if (document.getElementById('mixedView').style.display !== 'none') {
-          card.classList.add('filtered');
-          card.classList.remove('hidden');
-        } else {
-          // En vue catégories, on cache complètement
-          card.classList.add('hidden');
-          card.classList.remove('filtered');
-        }
-      }
-    }
-  });
-
-  // Gérer l'affichage des titres de catégories
-  if (document.getElementById('categoriesView').style.display !== 'none') {
-    document.querySelectorAll('.category-title').forEach(title => {
-      const categoryContainer = title.nextElementSibling;
-      const visibleCards = categoryContainer.querySelectorAll('.link-card:not(.hidden)');
-      title.style.display = visibleCards.length > 0 ? '' : 'none';
-    });
-  }
-}
-
 
 function copyURLToClipboard(event, url) {
   event.stopPropagation(); // éviter la sélection de la carte

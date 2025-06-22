@@ -85,6 +85,8 @@ body {
 .category-title.webgame-title { color: #00ffae; border-bottom: 1px solid #00ffae99; }
 .category-title.roblox-title { color: #007bff; border-bottom: 1px solid #007bff88; }
 .category-title.discord-title { color: #5865F2; border-bottom: 1px solid #5865F299; }
+.category-title.twitch-title { color: #9146FF; border-bottom: 1px solid #9146FF99; }
+.category-title.scratch-title { color: #FFA600; border-bottom: 1px solid #FFA60099; }
 
 .category-title {
   font-size: 1.4rem;
@@ -149,6 +151,23 @@ body {
 .link-card.roblox { border-color: #007bff; }
 .link-card.discord { border-color: #5865F2; }
 .link-card.scratch { border-color: #FFA600; }
+.link-card.twitch { border-color: #9146FF; }
+
+/* Couleurs des liens selon le type de carte */
+.link-card.webgame .card-url { color: #00ffae; }
+.link-card.webgame .card-url:hover { color: #19ffcd; }
+
+.link-card.roblox .card-url { color: #007bff; }
+.link-card.roblox .card-url:hover { color: #3395ff; }
+
+.link-card.discord .card-url { color: #5865F2; }
+.link-card.discord .card-url:hover { color: #7883f5; }
+
+.link-card.scratch .card-url { color: #FFA600; }
+.link-card.scratch .card-url:hover { color: #ffb733; }
+
+.link-card.twitch .card-url { color: #9146FF; }
+.link-card.twitch .card-url:hover { color: #a366ff; }
 
 /* Fond et glow dynamique selon la classe */
 .link-card.webgame.selected {
@@ -167,6 +186,10 @@ body {
   box-shadow: 0 0 16px 3px #FFA600;
   background: #FFA60011;
 }
+.link-card.twitch.selected {
+  box-shadow: 0 0 16px 3px #9146FF;
+  background: #9146FF11;
+}
 
 /* Hover effects */
 .link-card.webgame:hover {
@@ -184,6 +207,10 @@ body {
 .link-card.scratch:hover {
   box-shadow: 0 0 16px 3px #FFA600;
   background: #FFA60008;
+}
+.link-card.twitch:hover {
+  box-shadow: 0 0 16px 3px #9146FF;
+  background: #9146FF08;
 }
 
 .buttons {
@@ -212,6 +239,7 @@ body {
 .start-btn.dynamic-webgame { background: #00ffae; box-shadow: 0 0 18px #00ffae77; color: #181a2f; }
 .start-btn.dynamic-roblox { background: #007bff; box-shadow: 0 0 18px #007bff77; color: #fff; }
 .start-btn.dynamic-discord { background: #5865F2; box-shadow: 0 0 18px #5865F288; color: #fff; }
+.start-btn.dynamic-twitch { background: #9146FF; box-shadow: 0 0 18px #9146FF88; color: #fff; }
 
 .start-btn:hover {
   filter: brightness(1.12);
@@ -258,86 +286,19 @@ body {
   text-decoration: underline solid;
 }
 
-/* Couleurs des liens selon le type de carte */
-.link-card.webgame .card-url { color: #00ffae; }
-.link-card.webgame .card-url:hover { color: #19ffcd; }
-
-.link-card.roblox .card-url { color: #007bff; }
-.link-card.roblox .card-url:hover { color: #3395ff; }
-
-.link-card.discord .card-url { color: #5865F2; }
-.link-card.discord .card-url:hover { color: #7883f5; }
-
-.link-card.scratch .card-url { color: #FFA600; }
-.link-card.scratch .card-url:hover { color: #ffb733; }
-
-.travel-btn {
-  position: relative;
-  background: #00ffae;
-  color: #181a2f;
-  font-size: 1.16rem;
-  padding: 11px 24px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, min-width 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 50px;
-  overflow: hidden;
-}
-
-.travel-btn .travel-icon {
-  height: 24px;
-  width: 24px;
-  display: block;
-}
-
-.travel-btn .travel-text {
-  display: block;
-  color: inherit;
-  font-weight: 600;
-  font-size: 1.14rem;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.3s ease;
-  width: 0;
-}
-
-.travel-btn:hover {
-  min-width: 120px;
-  filter: brightness(1.12);
-}
-
-.travel-btn:hover .travel-text {
-  opacity: 1;
-  transform: translateX(0);
-  width: auto;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
+/* Styles du bouton travel */
 .travel-btn.dynamic-webgame { background: #00ffae; box-shadow: 0 0 18px #00ffae77; color: #181a2f; }
 .travel-btn.dynamic-roblox { background: #007bff; box-shadow: 0 0 18px #007bff77; color: #fff; }
 .travel-btn.dynamic-discord { background: #5865F2; box-shadow: 0 0 18px #5865F288; color: #fff; }
 .travel-btn.dynamic-scratch { background: #FFA600; box-shadow: 0 0 18px #FFA60077; color: #181a2f; }
+.travel-btn.dynamic-twitch { background: #9146FF; box-shadow: 0 0 18px #9146FF77; color: #fff; }
 
 /* Ajuster la couleur du texte au survol en fonction du type */
 .travel-btn.dynamic-webgame .travel-text { color: #181a2f; }
 .travel-btn.dynamic-roblox .travel-text { color: #fff; }
 .travel-btn.dynamic-discord .travel-text { color: #fff; }
 .travel-btn.dynamic-scratch .travel-text { color: #181a2f; }
+.travel-btn.dynamic-twitch .travel-text { color: #181a2f; }
 
 .search-container {
   position: relative;
@@ -392,4 +353,59 @@ body {
 .link-card.filtered {
   opacity: 0.5;
   transform: scale(0.95);
+}
+
+.travel-btn {
+  position: relative;
+  background: #00ffae;
+  color: #181a2f;
+  font-size: 1.16rem;
+  padding: 8px 20px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-width: 42px;
+  overflow: hidden;
+}
+
+.travel-btn .travel-icon {
+  height: 20px;
+  width: 20px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.3s ease;
+}
+
+.travel-btn .travel-text {
+  display: block;
+  color: inherit;
+  font-weight: 600;
+  font-size: 1.14rem;
+  max-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: max-width 0.3s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+.travel-btn:hover {
+  min-width: 110px;
+}
+
+.travel-btn:hover .travel-icon {
+  position: static;
+  transform: none;
+  margin-right: 8px;
+}
+
+.travel-btn:hover .travel-text {
+  max-width: 100px;
+  opacity: 1;
 }
