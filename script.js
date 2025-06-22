@@ -107,7 +107,7 @@ function renderView(mode) {
   
   if (mode === 'categories') {
     // Vue par catégories
-    const categoryOrder = ["Web Games", "Roblox", "Discord", "Scratch", "Twitch"];
+    const categoryOrder = ["Web Games", "Roblox", "Twitch", "Discord", "Scratch"];
     categoryOrder.forEach(cat => {
       const cards = cardsData.filter(card => card.category === cat);
       if (!cards.length) return;
