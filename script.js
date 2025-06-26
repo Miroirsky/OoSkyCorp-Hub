@@ -16,9 +16,25 @@ const cardsData = [
     category: "Web Games",
     type: "webgame",
     title: "Magical Fight",
-    description: "One of my web games",
+    description: "A game like rock, paper, scissors but with a magical twist",
     url: "https://miroirsky.github.io/Magical-Fight",
     image: "images/cards-images/Magical-Fight.png"
+  },
+  {
+    category: "Web Games",
+    type: "webgame",
+    title: "Cards",
+    description: "A game about collectioning cards",
+    url: "https://miroirsky.github.io/Cards/",
+    image: "images/cards-images/Cards.png"
+  },
+  {
+    category: "Web Games",
+    type: "webgame",
+    title: "Guess Thee Number",
+    description: "A game where you have to guess a number",
+    url: "https://miroirsky.github.io/Guess-The-Number/",
+    image: "images/cards-images/Guess-The-Number.png"
   },
   {
     category: "Roblox",
