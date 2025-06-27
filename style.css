@@ -1,499 +1,730 @@
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #0c0e2c;
-  color: #fff;
-  padding: 40px 0;
+    background: #191c23;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.container {
-  max-width: 900px;
-  background: #181a2f;
-  margin: auto;
-  border-radius: 20px;
-  padding: 36px 20px 32px 20px;
-  box-shadow: 0 0 40px #00ffae33;
-  transition: box-shadow 0.3s ease;
+/* Interface Roll */
+.roll-interface {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 2em;
+    text-align: center;
+    border-bottom: 3px solid #0f3460;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  gap: 20px;
+.roll-header {
+    margin-bottom: 2em;
 }
 
-.title {
-  font-size: 2.4rem;
-  color: #00ffae;
-  text-shadow: 0 0 8px #00ffae;
-  white-space: nowrap;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+.roll-header h1 {
+    font-size: 2.5em;
+    margin: 0.5em 0;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
 }
 
-.dropdown {
-  position: relative;
-  min-width: 140px;
+.roll-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.dropdown-toggle {
-  background: #232549;
-  color: #fff;
-  padding: 7px 16px;
-  font-size: 1rem;
-  border: 2px solid #00ffae;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.2s;
-  min-width: 140px;
-  text-align: left;
+#rolls-indicator {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    display: inline-block;
+    border: 2px solid #4ecdc4;
+    margin-right: 1em;
 }
 
-.dropdown-toggle:hover, .dropdown-toggle:focus {
-  background: #1b1d35;
-  box-shadow: 0 0 12px #00ffae99;
+#tokens-indicator {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #f39c12;
+    background: rgba(243, 156, 18, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    display: inline-block;
+    border: 2px solid #f39c12;
+    margin-left: 1em;
 }
 
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 110%;
-  background: #232549;
-  border-radius: 10px;
-  box-shadow: 0 0 8px #00ffae66;
-  min-width: 140px;
-  z-index: 10;
+#tokens-indicator.low {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    border-color: #e74c3c;
+    animation: pulse 1s ease-in-out infinite;
 }
 
-.dropdown-menu.show {
-  display: block;
+#tokens-indicator.medium {
+    color: #f39c12;
+    background: rgba(243, 156, 18, 0.1);
+    border-color: #f39c12;
 }
 
-.dropdown-item {
-  padding: 9px 16px;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.16s;
+#tokens-indicator.high {
+    color: #27ae60;
+    background: rgba(39, 174, 96, 0.1);
+    border-color: #27ae60;
 }
 
-.dropdown-item:hover {
-  background: #00ffae22;
+#tokens-indicator.max {
+    color: #3498db;
+    background: rgba(52, 152, 219, 0.1);
+    border-color: #3498db;
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
-/* Catégories : couleurs dynamiques */
-.category-title.webgame-title { color: #00ffae; border-bottom: 1px solid #00ffae99; }
-.category-title.roblox-title { color: #007bff; border-bottom: 1px solid #007bff88; }
-.category-title.discord-title { color: #5865F2; border-bottom: 1px solid #5865F299; }
-.category-title.twitch-title { color: #9146FF; border-bottom: 1px solid #9146FF99; }
-.category-title.scratch-title { color: #FFA600; border-bottom: 1px solid #FFA60099; }
-
-.category-title {
-  font-size: 1.4rem;
-  margin: 32px 0 14px 4px;
-  padding-bottom: 2px;
+.roll-btn {
+    font-size: 1.8em;
+    padding: 1.2em 3.5em;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2em;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-bottom: 10px;
-  justify-content: center;
+.roll-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+    scale: 1.05;
 }
 
-.link-card {
-  background: #232549;
-  border-radius: 12px;
-  padding: 18px 14px 16px 14px;
-  width: 210px;
-  border: 2px solid #444;
-  cursor: pointer;
-  transition: 0.18s all ease;
-  box-shadow: 0 0 0 transparent;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
+.roll-btn:active:not(:disabled) {
+    transform: translateY(-1px);
+    scale: 1.02;
 }
 
-.card-image {
-  margin: -18px -14px 12px -14px;
-  border-radius: 10px 10px 0 0;
-  overflow: hidden;
-  position: relative;
-  aspect-ratio: 16/9;
-  background: #1a1c2f;
+.roll-btn:disabled {
+    background: linear-gradient(45deg, #666, #999);
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
 }
 
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+/* Zone d'aperçu de carte */
+.card-preview-container {
+    margin: 2em 0;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.link-card:hover .card-image img {
-  transform: scale(1.05);
+.card-preview {
+    width: 200px;
+    height: 120px;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
 }
 
-.link-card h3 {
-  color: #fff;
-  font-size: 1.2rem;
-  margin-bottom: 4px;
+.preview-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed #3498db;
+    border-radius: 15px;
+    color: #3498db;
+    font-size: 0.9em;
+    padding: 1em;
 }
 
-.link-card p {
-  color: #bbbbbb;
-  font-size: 0.97rem;
+.preview-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    animation: cardReveal 0.2s ease-out;
 }
 
-.link-card.webgame { border-color: #00ffae; }
-.link-card.roblox { border-color: #007bff; }
-.link-card.discord { border-color: #5865F2; }
-.link-card.scratch { border-color: #FFA600; }
-.link-card.twitch { border-color: #9146FF; }
-
-/* Couleurs des liens selon le type de carte */
-.link-card.webgame .card-url { color: #00ffae; }
-.link-card.webgame .card-url:hover { color: #19ffcd; }
-
-.link-card.roblox .card-url { color: #007bff; }
-.link-card.roblox .card-url:hover { color: #3395ff; }
-
-.link-card.discord .card-url { color: #5865F2; }
-.link-card.discord .card-url:hover { color: #7883f5; }
-
-.link-card.scratch .card-url { color: #FFA600; }
-.link-card.scratch .card-url:hover { color: #ffb733; }
-
-.link-card.twitch .card-url { color: #9146FF; }
-.link-card.twitch .card-url:hover { color: #a366ff; }
-
-/* Fond et glow dynamique selon la classe */
-.link-card.webgame.selected {
-  box-shadow: 0 0 16px 3px #00ffae;
-  background: #00ffae11;
-}
-.link-card.roblox.selected {
-  box-shadow: 0 0 16px 3px #007bff;
-  background: #007bff11;
-}
-.link-card.discord.selected {
-  box-shadow: 0 0 16px 3px #5865F2;
-  background: #5865F211;
-}
-.link-card.scratch.selected {
-  box-shadow: 0 0 16px 3px #FFA600;
-  background: #FFA60011;
-}
-.link-card.twitch.selected {
-  box-shadow: 0 0 16px 3px #9146FF;
-  background: #9146FF11;
+.preview-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
 }
 
-/* Hover effects */
-.link-card.webgame:hover {
-  box-shadow: 0 0 16px 3px #00ffae;
-  background: #00ffae08;
-}
-.link-card.roblox:hover {
-  box-shadow: 0 0 16px 3px #007bff;
-  background: #007bff08;
-}
-.link-card.discord:hover {
-  box-shadow: 0 0 16px 3px #5865F2;
-  background: #5865F208;
-}
-.link-card.scratch:hover {
-  box-shadow: 0 0 16px 3px #FFA600;
-  background: #FFA60008;
-}
-.link-card.twitch:hover {
-  box-shadow: 0 0 16px 3px #9146FF;
-  background: #9146FF08;
+.preview-card-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 1em 0.5em 0.5em;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.9em;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-.buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 28px;
-  width: 100%;
-  min-height: 70px;
+@keyframes cardReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotateY(180deg);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8) rotateY(90deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+    }
 }
 
-
-.start-btn {
-  background: #00ffae;
-  color: #181a2f;
-  font-size: 1.16rem;
-  padding: 11px 32px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 0 transparent;
-  transition: background 0.18s, box-shadow 0.18s;
-  outline: none;
+/* Animation de roll */
+.roll-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
 }
 
-.start-btn.dynamic-webgame { background: #00ffae; box-shadow: 0 0 18px #00ffae77; color: #181a2f; }
-.start-btn.dynamic-roblox { background: #007bff; box-shadow: 0 0 18px #007bff77; color: #fff; }
-.start-btn.dynamic-discord { background: #5865F2; box-shadow: 0 0 18px #5865F288; color: #fff; }
-.start-btn.dynamic-twitch { background: #9146FF; box-shadow: 0 0 18px #9146FF88; color: #fff; }
-
-.start-btn:hover {
-  filter: brightness(1.12);
+.roll-animation.hidden {
+    display: none;
 }
 
-.category-title.scratch-title { color: #FFA600; border-bottom: 1px solid #FFA60099; }
-.start-btn.dynamic-scratch { background: #FFA600; box-shadow: 0 0 18px #FFA60077; color: #181a2f; }
-
-.card-url {
-  margin-top: 10px;
-  font-size: 0.92rem;
-  color: #9de8fc;
-  background: #191e31;
-  border-radius: 6px;
-  padding: 3px 8px;
-  word-break: break-all;
-  text-decoration: underline dotted;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 26px;
-  overflow-x: auto;
-  transition: color 0.16s;
-  text-align: center;
-  box-sizing: border-box;
+.spinning-cards {
+    display: flex;
+    gap: 20px;
+    animation: spinCards 0.3s ease-in-out infinite;
 }
 
-.card-url::-webkit-scrollbar {
-  height: 4px;
+.spinning-card {
+    width: 80px;
+    height: 50px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+    animation: individualSpin 0.2s ease-in-out infinite alternate;
 }
 
-.card-url::-webkit-scrollbar-track {
-  background: #191e31;
-  border-radius: 2px;
+.spinning-card:nth-child(2) {
+    animation-delay: 0.05s;
 }
 
-.card-url::-webkit-scrollbar-thumb {
-  background: #ffffff33;
-  border-radius: 2px;
+.spinning-card:nth-child(3) {
+    animation-delay: 0.1s;
 }
 
-.card-url:hover {
-  text-decoration: underline solid;
+@keyframes spinCards {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
-/* Styles du bouton travel */
-.travel-btn.dynamic-webgame { background: #00ffae; box-shadow: 0 0 18px #00ffae77; color: #181a2f; }
-.travel-btn.dynamic-roblox { background: #007bff; box-shadow: 0 0 18px #007bff77; color: #fff; }
-.travel-btn.dynamic-discord { background: #5865F2; box-shadow: 0 0 18px #5865F288; color: #fff; }
-.travel-btn.dynamic-scratch { background: #FFA600; box-shadow: 0 0 18px #FFA60077; color: #181a2f; }
-.travel-btn.dynamic-twitch { background: #9146FF; box-shadow: 0 0 18px #9146FF77; color: #fff; }
-
-/* Ajuster la couleur du texte au survol en fonction du type */
-.travel-btn.dynamic-webgame .travel-text { color: #181a2f; }
-.travel-btn.dynamic-roblox .travel-text { color: #fff; }
-.travel-btn.dynamic-discord .travel-text { color: #fff; }
-.travel-btn.dynamic-scratch .travel-text { color: #181a2f; }
-.travel-btn.dynamic-twitch .travel-text { color: #181a2f; }
-
-.search-container {
-  position: relative;
-  flex: 0.8;
-  max-width: 300px;
+@keyframes individualSpin {
+    0% { transform: rotateY(0deg) scale(1); }
+    100% { transform: rotateY(180deg) scale(1.2); }
 }
 
-.search-input {
-  width: 100%;
-  padding: 8px 35px 8px 14px;
-  border: 2px solid #00ffae44;
-  border-radius: 12px;
-  background: #232549;
-  color: #fff;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.search-input::placeholder {
-  color: #ffffff77;
+.item {
+    font-size: 1.5em;
+    margin-top: 1em;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: #00ffae;
-  box-shadow: 0 0 0 3px #00ffae33;
+/* Interface Inventaire */
+.inventory-interface {
+    flex: 1;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    padding: 2em;
+    overflow-y: auto;
 }
 
-.search-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #ffffff77;
-  pointer-events: none;
+.inventory-header {
+    text-align: center;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 2px solid #3498db;
 }
 
-.search-input:focus + .search-icon {
-  color: #00ffae;
+.inventory-header h2 {
+    font-size: 2.2em;
+    margin: 0 0 0.5em 0;
+    color: #3498db;
+    text-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
 }
 
-/* Style pour les cartes masquées */
-.link-card.hidden {
-  display: none;
+.inventory-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    font-size: 1.1em;
 }
 
-/* Animation pour les cartes filtrées */
-.link-card {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.inventory-stats span {
+    background: rgba(52, 152, 219, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    border: 1px solid #3498db;
+    color: #3498db;
+    font-weight: bold;
 }
 
-.link-card.filtered {
-  opacity: 0.5;
-  transform: scale(0.95);
+.collection {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(44, 62, 80, 0.3);
+    border-radius: 15px;
+    padding: 2em;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(52, 152, 219, 0.2);
 }
 
-.travel-btn {
-  position: relative;
-  background: #00ffae;
-  color: #181a2f;
-  font-size: 1.16rem;
-  padding: 8px 20px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  min-width: 42px;
-  overflow: hidden;
+#collection-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    gap: 15px 10px;
 }
 
-.travel-btn .travel-icon {
-  height: 20px;
-  width: 20px;
-  display: block;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all 0.3s ease;
+#collection-list li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 140px;
+    flex: 0 0 140px;
 }
 
-.travel-btn .travel-text {
-  display: block;
-  color: inherit;
-  font-weight: 600;
-  font-size: 1.14rem;
-  max-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: max-width 0.3s ease, opacity 0.2s ease;
-  opacity: 0;
+.card-inventory {
+    perspective: 700px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 140px;
+    height: 90px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
 }
 
-.travel-btn:hover {
-  min-width: 110px;
+.card-inventory:hover {
+    transform: translateY(-5px);
 }
 
-.travel-btn:hover .travel-icon {
-  position: static;
-  transform: none;
-  margin-right: 8px;
+.card-img, .card-roll-img {
+    width: 140px;
+    height: 90px;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    transition: box-shadow 0.3s ease;
 }
 
-.travel-btn:hover .travel-text {
-  max-width: 100px;
-  opacity: 1;
+.card-inventory:hover .card-img {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
-.update-badge-fixed {
-  position: fixed;
-  top: 24px;
-  right: 32px;
-  z-index: 9999;
-  color: #00ffae;
-  background: transparent;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  font-weight: bold;
-  font-size: 1.13rem;
-  border: 2.5px solid #00ffae;
-  border-radius: 13px;
-  padding: 7px 22px 7px 18px;
-  letter-spacing: 1px;
-  text-shadow: 0 0 14px #00ffae, 0 0 24px #00ffae99, 0 1px 0 #181a2f;
-  box-shadow: 0 0 18px #00ffae66, 0 0 2px #181a2f inset;
-  user-select: none;
-  white-space: nowrap;
-  opacity: 1;
-  pointer-events: none;
-  transition: box-shadow 0.18s, border-color 0.18s;
-}
-@media (max-width: 650px) {
-  .update-badge-fixed {
-    top: 6px;
-    right: 6px;
-    padding: 5px 11px 5px 9px;
-    font-size: 0.96rem;
-  }
+.card-roll-img {
+    width: 160px;
+    height: 96px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-
-.category-title {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.33,1,0.68,1);
+    transform-style: preserve-3d;
 }
 
-.category-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 6px;
-  background: #161822;
-  object-fit: contain;
-  box-shadow: none;
-  filter: none;
+.card-inventory:hover .card-flip-inner {
+    transform: rotateY(180deg);
 }
 
-@media (max-width: 700px) {
-  .category-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 6px;
-  background: #161822;
-  object-fit: contain;
-  box-shadow: none;
-  filter: none;
+.card-flip-front, .card-flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.card-flip-front {
+    z-index: 2;
 }
 
+.card-flip-back {
+    transform: rotateY(180deg);
+    z-index: 3;
+    background: linear-gradient(135deg, #cfcfcf, #acacac);
+    color: #222;
+}
 
-.card-category-icon {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 29px;
-  height: 29px;
-  z-index: 10;
-  background: #181a2fcc;
-  border-radius: 8px;
-  object-fit: contain;
-  pointer-events: none;
-  box-shadow: none;
-  filter: none;
+.card-text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 140px;
+    height: 90px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0px  2px 6px #000,
+         0px  2px 14px #000c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.18em;
+    pointer-events: none;
+    border-radius: 8px;
+    text-align: center;
+    padding: 0 4px;
+    line-height: 1.11em;
+    background: none;
+    transition: background 0.13s;
 }
-.link-card {
-  position: relative;
+
+.card-text .detail {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    pointer-events: auto;
+    position: static;
+    display: block;
+    height: auto;
 }
-@media (max-width: 700px) {
-  .card-category-icon {
-    width: 22px;
-    height: 22px;
-    top: 3px;
-    left: 3px;
-  }
+
+.card-text .name-only {
+    opacity: 1;
+    transition: none;
+    display: block;
+}
+
+.card-inventory:hover .card-text .detail,
+.card-inventory:hover .card-text .name-only {
+    opacity: 1;
+    display: block;
+}
+
+/* Carte du dernier roll (grande taille, aucun effet hover) */
+.card-roll {
+    position: relative;
+    width: 160px;
+    height: 96px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card-roll-text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 160px;
+    height: 96px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow:
+        -1.5px -1.5px 0 #000,
+         1.5px -1.5px 0 #000,
+        -1.5px  1.5px 0 #000,
+         1.5px  1.5px 0 #000,
+         0px  3px 12px #000,
+         0px  2px 16px #000c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25em;
+    pointer-events: none;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0 4px;
+    line-height: 1.14em;
+}
+
+.rarity-tag-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+.rarity-tag-container.rarity-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    top: auto;
+    bottom: 5px;
+    right: 5px;
+}
+
+.card-inventory:active .rarity-tag-container.rarity-hidden,
+.preview-card:active .rarity-tag-container.rarity-hidden {
+    opacity: 1;
+    visibility: visible;
+}
+
+.rarity-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 2px;
+}
+
+.rarity-common {
+    background: #95a5a6;
+    color: #2c3e50;
+}
+
+.rarity-rare {
+    background: #3498db;
+    color: white;
+}
+
+.rarity-epic {
+    background: #9b59b6;
+    color: white;
+}
+
+.rarity-mythic {
+    background: #c0392b;
+    color: #ffffff;
+}
+
+.rarity-legendary {
+    background: #7c4a03;
+    color: #ffe066;
+}
+
+.rarity-gold {
+    background: linear-gradient(45deg, #f39c12, #f1c40f);
+    color: #2c3e50;
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+.rarity-rainbow {
+    background: linear-gradient(45deg, #e74c3c, #f39c12, #f1c40f, #27ae60, #3498db, #9b59b6);
+    color: white;
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+    animation: rainbow-glow 2s ease-in-out infinite alternate;
+}
+
+.rarity-shiny {
+    background: linear-gradient(45deg, #e74c3c, #f39c12, #f1c40f, #27ae60, #3498db, #9b59b6);
+    color: white;
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+    animation: rainbow-glow 2s ease-in-out infinite alternate;
+    background: linear-gradient(120deg, #fff700, #ff00cc, #00eaff, #fff700);
+    background-size: 200% 200%;
+    animation: shiny-move 2s linear infinite alternate;
+}
+
+.rarity-sweet {
+    background: linear-gradient(45deg, #ffb6c1, #ff69b4);
+    color: #fff;
+    box-shadow: 0 0 8px #ff69b4aa;
+    border: 1px solid #ff69b4;
+}
+
+.rarity-cutting {
+    background: linear-gradient(45deg, #b0c4de, #4682b4);
+    color: #fff;
+    box-shadow: 0 0 8px #4682b4aa;
+    border: 1px solid #4682b4;
+    text-shadow: 0 0 2px #222, 0 0 6px #b0c4de;
+}
+
+@keyframes rainbow-glow {
+    from { box-shadow: 0 0 15px rgba(231, 76, 60, 0.6); }
+    to { box-shadow: 0 0 25px rgba(52, 152, 219, 0.8); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+    100% { box-shadow: 0 0 15px rgba(52, 152, 219, 0.6); }
+}
+@keyframes shiny-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.card-flip-back.rarity-common {
+    background: #95a5a6;
+    color: #2c3e50;
+}
+.card-flip-back.rarity-rare {
+    background: #3498db;
+    color: #fff;
+}
+.card-flip-back.rarity-epic {
+    background: #9b59b6;
+    color: #fff;
+}
+.card-flip-back.rarity-mythic {
+    background: #c0392b;
+    color: #fff;
+}
+.card-flip-back.rarity-legendary {
+    background: #4d2e00;
+    color: #fff;
+}
+
+.card-flip-back.rarity-gold {
+    background: linear-gradient(45deg, #f39c12, #f1c40f);
+    color: #2c3e50;
+}
+.card-flip-back.rarity-rainbow {
+    background: linear-gradient(45deg, #e74c3c, #f39c12, #f1c40f, #27ae60, #3498db, #9b59b6);
+    color: #fff;
+}
+.card-flip-back.rarity-shiny {
+    background: linear-gradient(120deg, #fff700, #ff00cc, #00eaff, #fff700);
+    background-size: 200% 200%;
+    animation: shiny-move 2s linear infinite alternate;
+    color: #fff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .roll-interface, .inventory-interface {
+        padding: 1em;
+    }
+    
+    .roll-header h1 {
+        font-size: 2em;
+    }
+    
+    .roll-btn {
+        font-size: 1.5em;
+        padding: 1em 2.5em;
+    }
+    
+    .card-preview {
+        width: 160px;
+        height: 96px;
+    }
+    
+    .inventory-header h2 {
+        font-size: 1.8em;
+    }
+    
+    .inventory-stats {
+        flex-direction: column;
+        gap: 1em;
+    }
+    
+    .collection {
+        padding: 1em;
+    }
+    
+    #collection-list {
+        gap: 10px 8px;
+    }
+    
+    #collection-list li {
+        width: 120px;
+        flex: 0 0 120px;
+    }
+    
+    .card-inventory {
+        width: 120px;
+        height: 77px;
+    }
+    
+    .card-img {
+        width: 120px;
+        height: 77px;
+    }
+    
+    .card-text {
+        width: 120px;
+        height: 77px;
+        font-size: 1em;
+    }
+}
+
+/* Update Text */
+.update-text {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #3498db;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    display: inline-block;
+    border: 2px solid #3498db;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
