@@ -1,68 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Cards</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OoSkyCorp-Hub</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div id="blur-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2000;background:rgba(255,255,255,0.2);backdrop-filter:blur(6px);display:none;"></div>
-    <!-- Update Text -->
-    <div class="update-text">Update 1.4</div>
-    <div id="last-connection" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2em;color:#3498db;background:rgba(255,255,255,0.97);padding:2em 2.5em;border-radius:25px;z-index:2001;text-align:center;box-shadow:0 8px 40px rgba(52,152,219,0.15);display:none;"></div>
-    <div id="reset-confirm" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2em;color:#e74c3c;background:rgba(255,255,255,0.97);padding:2em 2.5em;border-radius:25px;z-index:2001;text-align:center;box-shadow:0 8px 40px rgba(231,76,60,0.15);display:none;">
-        <div style='font-weight:bold;margin-bottom:1em;'>Voulez-vous vraiment réinitialiser toutes les données&nbsp;?</div>
-        <button id="confirm-reset-btn" style="margin:0 1em;padding:0.5em 1.5em;font-size:1em;background:#e74c3c;color:#fff;border:none;border-radius:20px;cursor:pointer;">Oui, tout effacer</button>
-        <button id="cancel-reset-btn" style="margin:0 1em;padding:0.5em 1.5em;font-size:1em;background:#aaa;color:#fff;border:none;border-radius:20px;cursor:pointer;">Annuler</button>
-    </div>
-    <button id="reset-save-btn" onclick="showResetConfirm()" style="position:fixed;top:70px;right:20px;z-index:2002;padding:0.7em 1.5em;font-size:1em;background:#e74c3c;color:#fff;border:none;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:pointer;">Reset Save</button>
-    
-    <!-- Interface Roll -->
-    <div class="roll-interface">
-        <div class="roll-header">
-            <div id="rolls-indicator">Rolls: <span id="rolls-count">0</span></div>
-            <div id="tokens-indicator">Tokens: <span id="tokens-count">5</span></div>
-            <h1>Basic Roller</h1>
+<div class="update-badge-fixed">[Update 1.6]</div>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">OoSkyCorp-Hub</h1>
+      <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search..." oninput="filterCards(this.value)">
+        <div class="search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/>
+          </svg>
         </div>
-        
-        <div class="roll-content">
-            <button class="roll-btn" id="roll-button" onclick="rollItem()">ROLL!</button>
-            
-            <!-- Zone d'aperçu de la carte -->
-            <div class="card-preview-container">
-                <div id="card-preview" class="card-preview">
-                    <div class="preview-placeholder">
-                        <span>Click ROLL! to get a card</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Animation de roll -->
-            <div id="roll-animation" class="roll-animation hidden">
-                <div class="spinning-cards">
-                    <div class="spinning-card"></div>
-                    <div class="spinning-card"></div>
-                    <div class="spinning-card"></div>
-                </div>
-            </div>
+      </div>
+      <div class="dropdown">
+      
+        <button id="displayModeBtn" class="dropdown-toggle" onclick="toggleDropdown()">
+          Grouped by categories
+        </button>
+        <div id="dropdownMenu" class="dropdown-menu">
+          <div class="dropdown-item" onclick="setView('categories')">Grouped by categories</div>
+          <div class="dropdown-item" onclick="setView('mixed')">Mixed view</div>
         </div>
+      </div>
     </div>
 
-    <!-- Interface Inventaire -->
-    <div class="inventory-interface">
-        <div class="inventory-header">
-            <h2>Inventory</h2>
-            <div class="inventory-stats">
-                <span id="total-cards">Total: 0</span>
-                <span id="unlocked-cards">Unlocked: 0</span>
-            </div>
-        </div>
-        
-        <div class="collection">
-            <ul id="collection-list"></ul>
-        </div>
-    </div>
+    <div id="mainContainer"></div>
 
-    <script src="rng.js"></script>
+    <div class="buttons">
+      <button class="travel-btn" id="travelBtn" onclick="travel()">
+        <img src="images/icons/travel.png" alt="Travel" class="travel-icon">
+        <span class="travel-text">Travel</span>
+      </button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
